@@ -12,6 +12,7 @@
   ],
   "author": "",
   "license": "",
-  "peerDependencies": {
+  "dependencies": {
+    "prop-types": "^15.6.0"
   }
 }
