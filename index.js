@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import ReactNative, {
-    requireNativeComponent,
-} from 'react-native';
+import ReactNative, { requireNativeComponent, View } from 'react-native';
 import PropTypes from 'prop-types';
 
 const resolveAssetSource = require('../react-native/Libraries/Image/resolveAssetSource');
@@ -16,12 +14,14 @@ class SimplePhotoView extends Component {
     }
 
     render() {
-        const source = resolveAssetSource(this.props.source) || { uri: undefined, width: undefined, height: undefined };
+        const { backgroundColor } = this.props;
+        const source = resolveAssetSource(this.props.source) ||
+            { uri: undefined,width: undefined, height: undefined, resizeMode: undefined, cache: undefined };
         let sources;
         if (Array.isArray(source)) {
             sources = source;
         } else {
-            const {width, height, uri} = source;
+            const { width, height, uri, resizeMode, cache } = source;
             sources = [source];
 
             if (uri === '') {
@@ -30,17 +30,20 @@ class SimplePhotoView extends Component {
         }
 
         return (
-            <RNSimplePhotoView
-                {...this.props}
-                source={sources}
-                onDidExit={this._onDidExit.bind(this)}
-            />
+            <View style={{ backgroundColor }}>
+                <RNSimplePhotoView
+                    {...this.props}
+                    source={sources}
+                    onDidExit={this._onDidExit.bind(this)}
+                />
+            </View>
         );
     }
 }
 
 SimplePhotoView.propTypes = {
     source: PropTypes.any,
+    backgroundColor: PropTypes.string,
     minScaling: PropTypes.number,
     maxScaling: PropTypes.number,
     onDidExit: PropTypes.func,
